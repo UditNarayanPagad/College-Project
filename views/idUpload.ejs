@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload</title>
+</head>
+<body>
+    <h1>Add photo on <i><%= post.event %></i> folder</h1>
+    <form action="/home/<%= post.id %>" method="post">
+        <input type="url" name="photo" placeholder="Enter the url" required>
+        <input type="text" placeholder="Enter your name" name="name" required>
+        <button type="submit">Submit</button>
+    </form>
+    <a style="text-decoration: none;margin: 4px;display: inline-block; border: 1px solid black; padding: 2px; background-color: azure; border-radius: 5px;" href="/home/<%= post.id %>">Back</a>
+</body>
+</html>

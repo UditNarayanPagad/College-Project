@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%= post.event %>
+    </title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        body {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            background-color: rgb(255, 219, 121);
+        }
+
+        .full {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            height: 80%;
+            padding: 20px 10px;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        h1 {
+            font-size: 40px;
+            margin: 10px;
+        }
+
+        h3 {
+            margin-bottom: 10px;
+        }
+
+        .item {
+            width: 60%;
+            height: 100%;
+            overflow: auto;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .item img {
+            width: 100%;
+            height: 90%;
+            border-radius: 5px;
+            margin-top: 5px;
+            object-fit: contain;
+        }
+        @media only screen and (width < 800px) {
+            .item{
+                width: 90%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="full">
+        <h1>
+            <%= post.event %>
+        </h1>
+        <h3>
+            <%= post.info %>
+        </h3>
+        <div class="item">
+            <% for (photo of post.image) {%>
+                <img src=<%=photo %>>
+            <% } %>
+        </div>
+    </div>
+</body>
+
+</html>
