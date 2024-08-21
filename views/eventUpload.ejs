@@ -187,11 +187,10 @@
                     </svg>
                 </span>
             </div>
+            <h3>Add image related to <%= post.eventName %></h3>
         </div>
         <div class="modal-body">
-            <form action="/upload" method="post" enctype="multipart/form-data">
-                <label for="eventName" style="font-weight: 600; font-size: large;">Event name</label>
-        <input type="text" placeholder="" id="eventName" name="eventName">
+            <form action="/event/<%= post._id %>" method="post" enctype="multipart/form-data">
                 <h2 class="modal-title">Upload a file</h2>
                 <button class="upload-area">
                     
@@ -201,7 +200,6 @@
                                 name="photo" accept="image/*" required></strong>
                     </span>
                 </button>
-                <textarea style="padding: 5px;" name="details" cols="52" rows="3" placeholder="Write more about the event"></textarea>
                 <div class="modal-footer">
                     <a style="text-decoration: none; font-size: large; padding: 8px; background-color: red; color: white; border-radius: 4px;" href="/">Cancel</a>
                     <button type="submit" class="btn-primary">Upload File</button>

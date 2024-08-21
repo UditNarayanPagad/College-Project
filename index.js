@@ -6,9 +6,11 @@ if (process.env.NODE_ENV != "production") {
   require("dotenv").config();
 }
 const multer = require("multer");
-const { storage } = require("./cloudConfig");
+const { storage, cloudinary } = require("./cloudConfig");
 const upload = multer({ storage });
 var session = require("express-session");
+const mongoose = require('mongoose');
+const MongoStore = require('connect-mongo');
 const UserModel = require("./models/user");
 const PostModel = require("./models/post");
 const bodyParser = require("body-parser");
@@ -17,9 +19,23 @@ var jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
 app.use(cookieParser());
 var flash = require("connect-flash");
+const mongoUrl = process.env.MONGO_URL
+const mongoConnect = mongoose.connect(mongoUrl);
+module.exports = mongoConnect
+const store = MongoStore.create({
+  mongoUrl: mongoUrl,
+  crypto:{
+    secret: process.env.SECRET
+  },
+  touchAfter: 24 * 3600,
+})
+store.on('error',(err)=>{
+  console.log("ERROR on MONGOSESSION STORE",err)
+})
 app.use(
   session({
-    secret: "mysecretstring",
+    store,
+    secret: process.env.SECRET,
     resave: false,
     saveUninitialized: true,
     cookie: { secure: false },
@@ -37,14 +53,12 @@ const { v4: uuidv4 } = require("uuid");
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+
 app.get("/", async (req, res) => {
   let tok = req.cookies.token;
   let posts = await PostModel.find();
   res.render("index.ejs", { tok, posts });
 });
-// app.get("/home", (req, res) => {
-//   res.render("index.ejs", { data,tok });
-// });
 app.get("/signUp", (req, res) => {
   res.render("signUp.ejs");
 });
@@ -127,29 +141,32 @@ app.get("/upload", isLoggedIn, (req, res) => {
 });
 app.post("/upload", upload.single("photo"), async (req, res) => {
   try {
-    let { eventName, details, createdDate } = req.body;
+    let { eventName, details } = req.body;
     let post = new PostModel({
       eventName,
       details,
-      createdDate,
     });
     try {
       let data = jwt.verify(req.cookies.token, "gggghhhhh");
       req.user = data;
       let email = req.user.email;
       let foundUser = await UserModel.findOne({ email });
-      post.userId = foundUser._id;
-      let path = req.file.path;
-      let filename = req.file.filename;
-      post.photo = { path, filename };
+      post.photos.push({
+        userId: foundUser._id,
+        path: req.file.path,
+        filename: req.file.filename,
+      });
       await post.save();
-      foundUser.posts.push(post._id);
+      foundUser.createdEvent.push(post._id);
+      let newPostId = post.photos[post.photos.length - 1]._id;
+      console.log(newPostId);
+      foundUser.posts.push(newPostId);
       await foundUser.save();
       req.flash("success", "Post created successfully!");
       res.redirect("/");
     } catch (error) {
-      console.log("Invalid token");
-      return res.redirect("/signIn");
+      console.log("Invalid token", error);
+      return res.redirect("/");
     }
   } catch (error) {
     console.log(error);
@@ -157,6 +174,139 @@ app.post("/upload", upload.single("photo"), async (req, res) => {
     res.redirect("/");
   }
 });
+app.get("/details/:id", async (req, res) => {
+  let { id } = req.params;
+  let post = await PostModel.findOne({ _id: id }).populate("photos.userId");
+  if (req.cookies.token) {
+    let data = jwt.verify(req.cookies.token, "gggghhhhh");
+    req.user = data;
+    let email = req.user.email;
+    let foundUser = await UserModel.findOne({ email });
+    return res.render("details", { post, foundUser });
+  } else {
+    let foundUser = [];
+    res.render("details", { post, foundUser });
+  }
+});
+
+app.get("/event/:id", isLoggedIn, async (req, res) => {
+  let { id } = req.params;
+  let post = await PostModel.findOne({ _id: id }).populate("photos.userId");
+  res.render("eventUpload", { post });
+});
+
+app.post("/event/:id", upload.single("photo"), async (req, res) => {
+  try {
+    try {
+      let { id } = req.params;
+      let data = jwt.verify(req.cookies.token, "gggghhhhh");
+      req.user = data;
+      let email = req.user.email;
+      let foundUser = await UserModel.findOne({ email });
+
+      let post = await PostModel.findOne({ _id: id });
+      post.photos.push({
+        userId: foundUser._id,
+        path: req.file.path,
+        filename: req.file.filename,
+      });
+      await post.save();
+      let newPostId = post.photos[post.photos.length - 1]._id;
+      foundUser.posts.push(newPostId);
+      await foundUser.save();
+      req.flash("success", "Post created successfully!");
+      res.redirect("/");
+    } catch (error) {
+      console.log("Invalid token", error);
+      return res.redirect("/");
+    }
+  } catch (error) {
+    console.log(error);
+    req.flash("error", error.message);
+    res.redirect("/");
+  }
+});
+app.post(
+  "/delete/:postId/:photoId/:folder/:file",
+  isLoggedIn,
+  async (req, res) => {
+    try {
+      const { postId } = req.params;
+      const { photoId } = req.params;
+      const { folder, file } = req.params;
+      let filename = folder + "/" + file;
+      console.log(filename);
+
+      await PostModel.updateOne(
+        { _id: postId },
+        { $pull: { photos: { _id: photoId } } }
+      )
+        .then((result) => {
+          console.log("Photo deleted:", result);
+        })
+        .catch((error) => {
+          console.error("Error deleting photo:", error);
+        });
+      let data = jwt.verify(req.cookies.token, "gggghhhhh");
+      req.user = data;
+      let email = req.user.email;
+      let foundUser = await UserModel.findOne({ email });
+      await UserModel.findOneAndUpdate(
+        { _id: foundUser._id },
+        { $pull: { posts: photoId } }
+      );
+      try {
+        await cloudinary.uploader.destroy(filename);
+        console.log("Image deleted from Cloudinary:", filename);
+      } catch (error) {
+        console.error("Error deleting image from Cloudinary:", error);
+      }
+      req.flash("success", "Photo deleted successfully!");
+      res.redirect(`/details/${postId}`);
+    } catch (error) {
+      console.log(error);
+      req.flash("error", "An error occuired while deleting");
+    }
+  }
+);
+app.get("/edit/:postId/:postEvent/:postDetails", isLoggedIn, (req, res) => {
+  let { postId, postEvent, postDetails } = req.params;
+  res.render("edit", { postId, postEvent, postDetails });
+});
+app.post(
+  "/edit/:postId/:postEvent/:postDetails",
+  isLoggedIn,
+  async (req, res) => {
+    try {
+      let { postId } = req.params;
+      let { eventName, details } = req.body;
+      let post = await PostModel.findOne({ _id: postId });
+      if (post.eventName !== eventName || post.details !== details) {
+        await PostModel.findOneAndUpdate(
+          { _id: postId },
+          {
+            eventName,
+            details,
+          },
+          {
+            new: true,
+          }
+        );
+        req.flash("success", "Post updated successfully!");
+      } else {
+        req.flash("success", "No changes detected, post not updated.");
+      }
+      res.redirect(`/details/${postId}`);
+    } catch (error) {
+      console.error(error);
+      req.flash("error", "An error occurred while updating the post.");
+      res.redirect(`/details/${postId}`);
+    }
+  }
+);
+app.get('/aboutUs',(req,res)=>{
+  res.render('aboutUs')
+})
 function isLoggedIn(req, res, next) {
   if (!req.cookies.token) {
     req.flash("error", "You have to sign in first!");
@@ -172,30 +322,7 @@ function isLoggedIn(req, res, next) {
   }
   next();
 }
-app.post("/home", (req, res) => {
-  let { event, image, info, name } = req.body;
-  let id = uuidv4();
-  data.push({ id, image: [image], event, info });
-  // data.image.push(image);
-  res.redirect("/home");
-});
-app.get("/home/:id/upload", (req, res) => {
-  let { id } = req.params;
-  let post = data.find((p) => id === p.id);
-  res.render("idUpload", { post });
-});
-app.post("/home/:id", (req, res) => {
-  let { photo, name } = req.body;
-  let { id } = req.params;
-  let post = data.find((p) => id === p.id);
-  post.image.push(photo);
-  res.redirect(`/home/${id}`);
-});
-app.get("/home/:id", (req, res) => {
-  let { id } = req.params;
-  let post = data.find((p) => id === p.id);
-  res.render("details", { post });
-});
+
 app.listen(port, () => {
   console.log(`Server is listening at http://localhost:${port}`);
 });

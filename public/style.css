@@ -4,7 +4,8 @@
     padding: 0;
     box-sizing: border-box;
 }
-body{
+
+body {
     display: flex;
     width: 100%;
     height: 100%;
@@ -12,6 +13,7 @@ body{
     overflow: hidden;
     justify-content: center;
 }
+
 .background {
     position: fixed;
     top: 0;
@@ -23,7 +25,8 @@ body{
     background-position: center;
     z-index: -1;
 }
-.main{
+
+.main {
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -33,12 +36,14 @@ body{
     overflow-y: auto;
     overflow-x: hidden;
 }
+
 .nav img {
     width: 100px;
     height: 50px;
     border-radius: 24px;
 }
-.nav{
+
+.nav {
     display: flex;
     height: 80px;
     color: white;
@@ -51,7 +56,7 @@ body{
     z-index: 3;
 }
 
-.dept{
+.dept {
     display: flex;
     text-align: center;
     align-items: center;
@@ -66,13 +71,15 @@ body{
     border: 1.5px solid greenyellow;
     box-shadow: 0 0 10px greenyellow;
 }
-.choose .link{
+
+.choose .link {
     display: flex;
     align-items: center;
     border-radius: 5px;
     height: 70px;
     text-align: center;
 }
+
 .nav a {
     color: #fefefe;
     font-size: 20px;
@@ -80,9 +87,11 @@ body{
     border-radius: 24px;
     padding: 10px
 }
+
 .choose .link:hover {
     border-bottom: 2px solid greenyellow;
 }
+
 .choose .link:hover a {
     background-color: #1ca517;
     box-shadow: 0 0 10px greenyellow;
@@ -96,20 +105,24 @@ body{
     font-size: large;
     font-weight: 600;
 }
-.nav a:active{
+
+.nav a:active {
     background-color: #1ca517;
     color: white;
 }
-.nav .more{
+
+.nav .more {
     position: absolute;
     text-align: center;
     cursor: pointer;
     display: none;
 }
-.nav .more:hover{
+
+.nav .more:hover {
     color: white;
 }
-.container{
+
+.container {
     height: calc(100% - 80px);
     margin-top: 100px;
     width: 100%;
@@ -120,99 +133,118 @@ body{
     position: relative;
     color: white;
 }
+
 .dot {
     position: absolute;
     width: 8px;
     height: 8px;
     border-radius: 50%;
     background-color: #ff6347;
-    pointer-events: none; 
+    pointer-events: none;
     transition: transform 0.4s ease-in-out;
-  }
-  .glow:hover {
+}
+
+.glow {
+    transition: all ease-in-out .5s;
+}
+
+.glow:hover {
     --blur: 1.75rem;
     --box-blur: calc(0.5 * var(--blur));
     --glow: var(--color);
-  
+
     border-radius: 12px;
     border: 1px solid currentColor;
-    box-shadow: 
-      /* --- "glass" tube --- */
-      /* inside */ inset 0 0 0 2px
-        rgba(0, 0, 0, 0.15),
-      /* outside */ 0 0 0 2px rgba(0, 0, 0, 0.15),
-      /* --- glow --- */ /* inside */ inset 0 0 var(--box-blur) var(--glow),
-      /* outside */ 0 0 var(--box-blur) var(--glow);
+    box-shadow:
+        /* --- "glass" tube --- */
+        /* inside */
+        inset 0 0 0 2px rgba(0, 0, 0, 0.15),
+        /* outside */
+        0 0 0 2px rgba(0, 0, 0, 0.15),
+        /* --- glow --- */
+        /* inside */
+        inset 0 0 var(--box-blur) var(--glow),
+        /* outside */
+        0 0 var(--box-blur) var(--glow);
     color: var(--color, white);
-  
+
     >* {
-      margin: 0;
-      padding: 0;
+        
     }
-  
+
     &.yelw {
-      --color: #37f929;
-      filter: saturate(175%);
+        --color: #37f929;
+        filter: saturate(175%);
     }
+
     &.orng {
-      --color: #fda802;
-      filter: brightness(110%);
+        --color: #fda802;
+        filter: brightness(110%);
     }
+
     &.purpl {
-      --color: #e555c7;
-      filter: brightness(125%);
+        --color: #e555c7;
+        filter: brightness(125%);
     }
+
     &.sky {
-      --color: #b7e7f7;
-      filter: saturate(200%);
+        --color: #b7e7f7;
+        filter: saturate(200%);
     }
-  }
-  
-.card{  
-    width:30%;
+}
+
+.card {
+    width: 30%;
     margin: 10px;
     display: flex;
     flex-direction: column;
     padding: 8px 5px 15px 5px;
-    background-color:  #ffbf003d;
+    background-color: #ffbf003d;
     backdrop-filter: blur(7px);
     border-radius: 15px;
     text-align: center;
     margin-left: auto;
     margin-right: auto;
     border: 1px solid rgb(164, 164, 164);
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
 }
-.cardImage{
+
+.cardImage {
     width: 100%;
     border-radius: 10px;
     overflow: hidden;
     cursor: pointer;
 }
-.card:hover img{
+
+/* .card:hover img{
     scale: 1.1;
     transition: scale .6s ease-in-out;
-}
-.card h3{
-    font-size: x-large ;
-    color:whitesmoke;
+} */
+.card h3 {
+    font-size: x-large;
+    color: whitesmoke;
     margin-bottom: 4px;
     font-weight: 500;
 }
-.card h4{
+
+.card h4 {
     color: white;
 }
-.card img{
+
+.card img {
     width: 100%;
     height: 100%;
     margin-bottom: 4px;
     border-radius: inherit;
 }
+
 .down {
     display: flex;
     justify-content: space-around;
     align-items: center;
-    margin-top: 4px;
+    margin-top: 10px;
 }
+
 .alert {
     padding: 10px;
     margin: 20px 0;
@@ -221,20 +253,21 @@ body{
     position: absolute;
     top: -20px;
     z-index: 20;
-  }
-  
-  .alert-success {
+    box-shadow: rgba(42, 91, 41, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+}
+
+.alert-success {
     color: white;
     background-color: #00b603;
     border-color: #d6e9c6;
-  }
-  
-  .alert-danger {
+}
+
+.alert-danger {
     color: white;
     background-color: #981e1c;
     border-color: #ebccd1;
-  }
-  
+}
+
 .lan {
     text-align: center;
     margin-top: 10px;
@@ -253,6 +286,7 @@ a {
 .down :first-child {
     background-color: #09A6BD;
     color: white;
+    transition: all ease-in-out .3s;
 }
 
 .down :first-child:hover {
@@ -261,8 +295,9 @@ a {
 }
 
 .down :last-child {
-    background-color: #0b9e08;  
+    background-color: #0b9e08;
     color: rgb(248, 245, 245);
+    transition: all ease-in-out .3s;
 }
 
 .down :last-child:hover {
@@ -270,7 +305,7 @@ a {
     color: rgb(13, 12, 12);
 }
 
-.moreDiv{
+.moreDiv {
     background-color: #09a5bd95;
     backdrop-filter: blur(7px);
     z-index: 10;
@@ -290,13 +325,16 @@ a {
     padding: 20px;
     color: white;
 }
-.moreDiv i{
+
+.moreDiv i {
     margin: 8px;
     color: white;
 }
-.moreDiv i:hover{
+
+.moreDiv i:hover {
     color: rgb(215, 215, 215);
 }
+
 .moreDiv a {
     border: none;
     color: #ffffff;
@@ -304,6 +342,7 @@ a {
     margin-left: 5%;
     width: 50%;
 }
+
 .moreDiv a:hover {
     background-color: #1ca517;
     color: white;
@@ -316,75 +355,77 @@ a {
     }
 } */
 @media only screen and (width < 1250px) {
-    .nav{
+    .nav {
         display: flex;
         align-items: center;
         height: 80px;
     }
-    .dept{
+
+    .dept {
         height: 40px;
         display: flex;
         align-items: center;
     }
-    .nav .more{
+
+    .nav .more {
         display: none;
     }
-    .moreDiv{
+
+    .moreDiv {
         display: none;
     }
-    /* .card{
-        width: 40%;
-        padding: 8px;
-        margin: 5px;
-        border-radius: 8px;
-    }
-    .dept{
-            margin-bottom: 20px;
-            padding-left: 0px;
-            margin-left: 0px;
-        } */
 }
+
 @media only screen and (width < 800px) {
     .nav img {
         width: 80px;
         height: 40px;
         border-radius: 4px;
     }
-    .card{
+
+    .card {
         width: 80%;
         padding: 8px;
         margin: 5px;
         border-radius: 8px;
     }
-    .nav{
+
+    .nav {
         flex-wrap: wrap;
         height: auto;
     }
-    .choose{
+
+    .choose {
         display: none;
     }
-    .dept{
+
+    .dept {
         margin-top: 10px;
         font-size: x-small;
         margin-left: 24px;
     }
-    .nav .more{
+
+    .nav .more {
         position: absolute;
         display: block;
         right: 15px;
     }
-    .moreDiv{
+
+    .moreDiv {
         display: none;
         padding: 10px;
     }
 }
+
 @media only screen and (width < 390px) {
-    .items{
+    .items {
         width: 90vw;
     }
-    .nav{
+
+    .nav {
         width: 100%;
     }
+
     a {
         text-decoration: none;
         margin: 0px 2px;
@@ -392,20 +433,24 @@ a {
         border-radius: 3px;
         font-size: small;
     }
-    .card h3{
+
+    .card h3 {
         font-size: large;
-        color:whitesmoke;
+        color: whitesmoke;
         margin-bottom: 4px;
         font-weight: 400;
     }
-    .card h4{
-        color:  white;
+
+    .card h4 {
+        color: white;
         font-size: small;
     }
-    .nav .more{
+
+    .nav .more {
         right: 8px;
     }
-    .moreDiv{
+
+    .moreDiv {
         width: 55%;
     }
 }

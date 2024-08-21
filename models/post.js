@@ -1,27 +1,58 @@
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://127.0.0.1:27017/college');
 
-const postSchema = mongoose.Schema({
-    userId:{
+const mongoConnect = require('../index')
+
+const photoSchema = new mongoose.Schema({
+    userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user'
     },
-    eventName:{
+    path: {
         type: String,
-        require: true,
+        required: true
     },
-    photo:{
-        path: String,
-        filename: String
-    },
-    details:{
+    filename: {
         type: String,
-        require: true,
+        required: true
     },
     createdDate: {
         type: Date,
         default: Date.now
     }
-})
+});
+
+const postSchema = new mongoose.Schema({
+    eventName: {
+        type: String,
+        required: true
+    },
+    photos: [photoSchema],
+    details: {
+        type: String,
+        required: true
+    }
+});
+// const postSchema = mongoose.Schema({
+//     userId:{
+//         type: mongoose.Schema.Types.ObjectId,
+//         ref: 'user'
+//     },
+//     eventName:{
+//         type: String,
+//         require: true,
+//     },
+//     photo:{
+//         path: String,
+//         filename: String
+//     },
+//     details:{
+//         type: String,
+//         require: true,
+//     },
+//     createdDate: {
+//         type: Date,
+//         default: Date.now
+//     }
+// })
 
 module.exports = mongoose.model('post',postSchema)

@@ -27,7 +27,7 @@
         <% } %>
 
         <div class="link"><a href="/upload">Upload</a></div>
-        <div class="link"><a href="#">About us</a></div>
+        <div class="link"><a href="/aboutUs">About us</a></div>
       </div>
       <header>
         <div class="nav">
@@ -46,7 +46,7 @@
             <% } %>
 
             <div class="link"><a href="/upload">Upload</a></div>
-            <div class="link"><a href="#">About us</a></div>
+            <div class="link"><a href="/aboutUs">About us</a></div>
           </div>
           <span><i class="fa-solid fa-bars fa-lg more"></i></span>
         </div>
@@ -57,28 +57,28 @@
         <div class="alert alert-success"><%= messages.success %></div>
         <% } %> <% if (messages.error) { %>
         <div class="alert alert-danger"><%= messages.error %></div>
-        <% } %> <% let colors=["purpl","yelw", "orng" , "sky" ] %> <% if
-        (posts.length !==0) { %> <%posts.reverse().forEach((post, indx)=> { %>
-        <div class="card glow <%= colors[indx % colors.length] %>">
-          <% if (messages.info) { %>
-          <div class=""><%= messages.info %></div>
-          <% } %>
-          <h3><%= post.eventName %></h3>
-          <div class="cardImage"><img src="<%= post.photo.path %>" /></div>
+        <% } %> <% let colors=["purpl","yelw", "orng" , "sky" ] %> 
+        <%posts.reverse().forEach((post, indx)=> { %>
+          <div class="card glow <%= colors[indx % colors.length] %>">
+            
+            <h3><%= post.eventName %></h3>
+            <% if(post.photos.length > 0) { %> 
+          <div class="cardImage"><img src="<%= post.photos[0].path %>" /></div>
           <h4><%= post.details %></h4>
           <h5>
-            created on: <%= new Date(post.createdDate).toLocaleString('en-IN', {
+            created on: <%= new Date(post.photos[0].createdDate).toLocaleString('en-IN', {
             timeZone: 'Asia/Kolkata' }).replace(',', '' ) %>
           </h5>
-
+          <% } else { %>
+            <h1>No images found</h1>
+            <% } %>
           <div class="down">
-            <a href="<%= post._id %>">See Details</a>
-            <a href="<%= post._id %>/upload">Add more to it</a>
+            <a href="/details/<%= post._id %>">See Details</a>
+            <a href="/event/<%= post._id %>">Add more to it</a>
           </div>
         </div>
-        <% }) %> <% } else { %>
-        <h1>No images found</h1>
-        <% } %>
+        
+        <% }) %> 
       </div>
     </div>
     <script>

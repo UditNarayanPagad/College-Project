@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit event</title>
+</head>
+<style>
+    body{
+        background-color: black;
+        display: flex;
+        justify-content: center;
+    }
+    form{
+        width: 300px;
+        background-color: rgb(220, 219, 218);
+        padding: 15px;
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 7px;
+    }
+    input{
+        padding: 10px;
+    }
+    .btn-primary {
+            padding: .5rem 1rem;
+            font-weight: 500;
+            border: none;
+            border-radius: .25rem;
+            color: #FFF;
+            background-color: rgb(95, 95, 255);
+            cursor: pointer;
+            width: 55px;
+        }
+
+        .btn-primary:hover {
+            background-color: blue;
+        }
+</style>
+<body>
+    <form action="/edit/<%= postId %>/<%= postEvent %>/<%= postDetails %>" method="post">
+        <label for="eventName" style="font-weight: 600; font-size: x-large;">Event name</label>
+        <input type="text" placeholder="" value="<%= postEvent %>" name="eventName" id="eventName">
+        <label for="details" style="font-weight: 600; font-size: x-large;">Event details</label>
+        <textarea style="padding: 5px;" id="details" name="details" cols="52" rows="3" placeholder=""><%= postDetails %></textarea>
+        <button type="submit" class="btn-primary">Edit</button>
+        <a
+        style="
+          color: white;
+          padding: 4px 10px;
+          text-decoration: none;
+          background-color: rgb(85, 85, 226);
+          border-radius: 8px;
+          width: 130px;
+        "
+        href="/"
+        >Back to Home page</a
+      >
+    </form>
+</body>
+</html>

@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://127.0.0.1:27017/college');
+
+const mongoConnect = require('../index')
 
 const userSchema = mongoose.Schema({
     username:{
@@ -15,6 +16,12 @@ const userSchema = mongoose.Schema({
         type: String,
         require: true,
     },
+    createdEvent:[
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "post"
+        }
+    ],
     posts:[
         {
             type: mongoose.Schema.Types.ObjectId,

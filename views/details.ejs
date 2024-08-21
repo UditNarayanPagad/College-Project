@@ -1,85 +1,236 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>
-        <%= post.event %>
-    </title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= post.eventName %></title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.css"
+      integrity="sha512-OQDNdI5rpnZ0BRhhJc+btbbtnxaj+LdQFeh0V9/igiEPDiWE2fG+ZsXl0JEH+bjXKPJ3zcXqNyP4/F/NegVdZg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
     <style>
-        * {
-            padding: 0;
-            margin: 0;
-        }
+      * {
+        padding: 0;
+        margin: 0;
+      }
 
-        body {
-            width: 100vw;
-            height: 100vh;
-            position: relative;
-            background-color: rgb(255, 219, 121);
-        }
+      body {
+        width: 100vw;
+        height: 100vh;
+        position: relative;
+        background: rgb(63, 94, 251);
+        background: linear-gradient(
+          36deg,
+          rgba(63, 94, 251, 1) 0%,
+          rgba(252, 70, 107, 1) 100%
+        );
+        overflow: hidden;
+        color: white;
+      }
 
-        .full {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 80%;
-            height: 80%;
-            padding: 20px 10px;
-            display: flex;
-            align-items: center;
-            flex-direction: column;
-        }
+      .full {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 80%;
+        height: 95%;
+        padding: 20px 10px;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+      }
 
-        h1 {
-            font-size: 40px;
-            margin: 10px;
-        }
+      h1 {
+        font-size: 40px;
+        margin: 10px;
+      }
 
-        h3 {
-            margin-bottom: 10px;
-        }
+      h3 {
+        margin-bottom: 10px;
+      }
 
-        .item {
-            width: 60%;
-            height: 100%;
-            overflow: auto;
-            display: flex;
-            align-items: center;
-            flex-direction: column;
-        }
+      .images {
+        width: 60%;
+        overflow: auto;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+      }
+      .card {
+        margin: 10px;
+        border: 2px solid rgb(165, 164, 164);
+        border-radius: 5px;
+        background-color: rgba(127, 255, 212, 0.51);
+        padding: 5px;
+        box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px,
+          rgba(0, 0, 0, 0.23) 0px 6px 6px;
+      }
+      .card p {
+        margin-left: 8px;
+        font-size: large;
+        font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+          sans-serif;
+      }
+      .images img {
+        width: 100%;
+        object-fit: contain;
+        border-radius: 5px;
+      }
+      .footer {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+      }
+      .deleteBtn {
+        background-color: rgb(249, 57, 57);
+        color: white;
+        padding: 4px;
+        border-radius: 5px;
+        text-decoration: none;
+        margin-left: 15px;
+        border: none;
+        cursor: pointer;
+      }
+      .alert {
+        padding: 10px;
+        margin: 20px 0;
+        border: 1px solid transparent;
+        border-radius: 25px;
+        position: absolute;
+        top: -20px;
+        z-index: 20;
+      }
 
-        .item img {
-            width: 100%;
-            height: 90%;
-            border-radius: 5px;
-            margin-top: 5px;
-            object-fit: contain;
+      .alert-success {
+        color: white;
+        background-color: #00b603;
+        border-color: #d6e9c6;
+      }
+
+      .alert-danger {
+        color: white;
+        background-color: #f21713;
+        border-color: #ebccd1;
+      }
+      .editBtn {
+        font-size: 18px;
+        display: inline-block;
+        margin-left: 20px;
+        cursor: pointer;
+        position: relative;
+      }
+      .editBtn h4 {
+        display: none;
+      }
+      .editBtn:hover h4 {
+        display: inline-block;
+      }
+      button {
+        cursor: pointer;
+      }
+      @media only screen and (width < 800px) {
+        .images {
+          width: 90%;
         }
-        @media only screen and (width < 800px) {
-            .item{
-                width: 90%;
-            }
+        .footer {
+          display: flex;
+          flex-direction: column;
         }
+      }
     </style>
-</head>
+  </head>
 
-<body>
+  <body>
     <div class="full">
-        <h1>
-            <%= post.event %>
-        </h1>
-        <h3>
-            <%= post.info %>
-        </h3>
-        <div class="item">
-            <% for (photo of post.image) {%>
-                <img src=<%=photo %>>
-            <% } %>
+      <h1>
+        <%= post.eventName %> 
+        <% if (foundUser.createdEvent) { %>
+        <%foundUser.createdEvent.forEach(element => {%>
+        <% if( post._id.toString() == element) {%>
+        <span class="editBtn"
+          ><form
+            action="/edit/<%= post._id %>/<%= post.eventName %>/<%= post.details %>"
+            method="get"
+          >
+            <button type="submit"><i class="ri-edit-2-line"></i></button>
+          </form>
+          <h4
+            style="
+              background-color: black;
+              color: white;
+              padding: 3px;
+              position: absolute;
+              top: 0;
+              left: 20px;
+            "
+          >
+            edit
+          </h4></span>
+        <% } %> <% }); %> 
+        <% } %>
+      </h1>
+      <h3><%= post.details %></h3>
+      <a
+        style="
+          color: white;
+          padding: 4px 10px;
+          text-decoration: none;
+          background-color: rgb(85, 85, 226);
+          border-radius: 8px;
+        "
+        href="/"
+        >Back to Home page</a
+      >
+      <% if (messages.success) { %>
+      <div class="alert alert-success"><%= messages.success %></div>
+      <% } %> <% if (messages.error) { %>
+      <div class="alert alert-danger"><%= messages.error %></div>
+      <% } %>
+      <div class="images">
+        <% post.photos.forEach(element => {%>
+        <div class="card">
+          <img src="<%= element.path %>" alt="" />
+          <div class="footer">
+            <p>
+              Posted By:
+              <strong
+                ><%= element.userId.username.charAt(0).toUpperCase() +
+                element.userId.username.slice(1) %></strong
+              >
+            </p>
+            <p style="color: rgb(231, 229, 229); font-size: medium">
+              Posted On: <%= new
+              Date(element.createdDate).toLocaleString('en-IN', { timeZone:
+              'Asia/Kolkata' }).replace(',', '' ) %>
+            </p>
+          </div>
+          <% if (element.userId.username == foundUser.username) {%>
+          <div>
+            <form
+              action="/delete/<%= post._id %>/<%= element._id %>/<%= element.filename %>"
+              method="post"
+            >
+              <button class="deleteBtn">
+                Delete <i class="ri-delete-bin-fill"></i>
+              </button>
+            </form>
+          </div>
+          <% } %>
         </div>
+        <% }); %>
+      </div>
     </div>
-</body>
-
+    <script>
+      setTimeout(function () {
+        const alerts = document.querySelectorAll(".alert");
+        alerts.forEach((alert) => {
+          alert.style.display = "none";
+        });
+      }, 5000);
+    </script>
+  </body>
 </html>

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us</title>
+    <style>
+        body{
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            background-color: rgb(78, 78, 78);
+            color: white;
+            width: 100vw;
+        }
+        main{
+            width: 100%;
+            display: inline-block;
+        }
+        header{
+            margin-top: 30px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            text-align: center;
+        }
+        header p{
+            padding-left: 15vw;
+            padding-right: 15vw;
+            font-size: 18px;
+        }
+        .one{
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 5vw;
+        }
+        .right,.left{
+            width: 50%;
+            padding: 3vw;
+        }
+        .left img{
+            width: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+        .right p{
+            font-size: larger;
+            text-align: center;
+        }
+        .two{
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+        .profile{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            width: 30%;
+            padding-bottom: 30px;
+        }
+        .image{
+            height: 140px;
+            width: 140px;
+            border-radius: 50%;
+            object-fit: contain;
+            background-color: rgb(255, 221, 127);
+            padding: 3px;
+        }
+        img{
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+        }
+        .about{
+            text-align: center;
+        }
+        .details{
+            font-family: 'Times New Roman';
+        }
+        footer{
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-family: monospace;
+            color: rgb(195, 195, 195);
+            border-top: 1px solid rgb(173, 173, 173);
+        }
+        @media only screen and (width < 800px) {
+            .one{
+                flex-direction: column;
+            }
+            .right,.left{
+                width: 80%;
+            }
+            .two{
+                flex-wrap: wrap;
+                flex-direction: column;
+            }
+            .profile{
+                width: 80%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <header>
+            <h1>Welcome to Department of C.S , SDVM</h1>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint, culpa quae quos voluptas quasi impedit optio ex tenetur quo accusamus sed eaque quas facere aut consectetur laboriosam ad nobis labore.</p>
+        </header>
+        <section class="one">
+            <div class="left"><img src="/images/SDVM.jpg" alt=""></div>
+            <div class="right">
+                <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae quaerat impedit perferendis ipsam, adipisci earum quisquam! Tenetur iusto iure voluptatem perferendis fugiat labore velit vitae, magni asperiores impedit non suscipit?
+                </p>
+            </div>
+        </section>
+        <section class="two">
+            <div class="profile">
+                <div class="image">
+                    <img src="/images/Santosh_sir.jpg" alt="teacher">
+                </div>
+                <div class="about">
+                    <h3 class="name">Mr. Santosh Ku. Raul</h3>
+                    <p class="details"><strong>HOD of Comp. Sc.</strong> (16 Years Exep.) M. Tech</p>
+                </div>
+            </div>
+            
+            <div class="profile">
+                <div class="image">
+                    <img src="/images/KAILASH NAYAK.jpg" alt="teacher">
+                </div>
+                <div class="about">
+                    <h3 class="name">Mr. Kailash Ch. Nayak</h3>
+                    <p class="details"><strong>Dept. of Comp. Sc.</strong> (8 Years Exep.) M.Sc, M.Tech</p>
+                </div>
+            </div>
+
+            <div class="profile">
+                <div class="image">
+                    <img src="/images/" alt="">
+                </div>
+                <div class="about">
+                    <h3 class="name">Mr. Bhagaban Muduli</h3>
+                    <p class="details">Lorem ipsum dolor sit amet consectetur.</p>
+                </div>
+            </div>
+        </section>
+        <footer>
+            <h4>&copy;copyright | 2024 | Computer Sc. SDVM, Nknagar</h4>
+            <a
+        style="
+          color: white;
+          padding: 4px 10px;
+          text-decoration: none;
+          background-color: rgb(85, 85, 226);
+          border-radius: 8px;
+          width: 130px;
+          position: absolute;
+          top: 10px;
+          right: 10px;
+        "
+        href="/"
+        >Back to Home page</a
+      >
+        </footer>
+    </main>
+</body>
+</html>
