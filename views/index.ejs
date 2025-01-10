@@ -12,11 +12,27 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
+    <style>
+      #scrollbar1::-webkit-scrollbar {
+            width: 10px;
+        }
+        
+        #scrollbar1::-webkit-scrollbar-track {
+            border-radius: 8px;
+            background-color: #e7e7e7;
+            border: 1px solid #cacaca;
+        }
+        
+        #scrollbar1::-webkit-scrollbar-thumb {
+            border-radius: 8px;
+            background-color: #0882c9;
+        }
+    </style>
   </head>
 
-  <body>
+  <body >
     <div class="background"></div>
-    <div class="main">
+    <div class="main" id="scrollbar1">
       <div class="moreDiv" style="display: none">
         <i class="fa-solid fa-xmark fa-lg close"></i>
         <% if (!tok) {%>

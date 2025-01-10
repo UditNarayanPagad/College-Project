@@ -17,9 +17,24 @@
         margin: 0;
       }
 
+      #scrollbar1::-webkit-scrollbar {
+            width: 10px;
+        }
+        
+        #scrollbar1::-webkit-scrollbar-track {
+            border-radius: 8px;
+            background-color: #e7e7e7;
+            border: 1px solid #cacaca;
+        }
+        
+        #scrollbar1::-webkit-scrollbar-thumb {
+            border-radius: 8px;
+            background-color: #b5e62f;
+        }
+
       body {
         width: 100vw;
-        height: 100vh;
+        height: 130vh;
         position: relative;
         background: rgb(63, 94, 251);
         background: linear-gradient(
@@ -27,17 +42,17 @@
           rgba(63, 94, 251, 1) 0%,
           rgba(252, 70, 107, 1) 100%
         );
-        overflow: hidden;
         color: white;
+        overflow-x: hidden;
+        font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
 
       .full {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
         width: 80%;
-        height: 95%;
+        height: 110vh;
         padding: 20px 10px;
         display: flex;
         align-items: center;
@@ -54,7 +69,8 @@
       }
 
       .images {
-        width: 60%;
+        width: 85%;
+        height: 100%;
         overflow: auto;
         display: flex;
         align-items: center;
@@ -133,8 +149,11 @@
         cursor: pointer;
       }
       @media only screen and (width < 800px) {
+        .full{
+          width: 95%;
+        }
         .images {
-          width: 90%;
+          width: 95%;
         }
         .footer {
           display: flex;
@@ -145,7 +164,7 @@
   </head>
 
   <body>
-    <div class="full">
+    <div class="full" >
       <h1>
         <%= post.eventName %> 
         <% if (foundUser.createdEvent) { %>
@@ -190,7 +209,7 @@
       <% } %> <% if (messages.error) { %>
       <div class="alert alert-danger"><%= messages.error %></div>
       <% } %>
-      <div class="images">
+      <div class="images" id="scrollbar1">
         <% post.photos.forEach(element => {%>
         <div class="card">
           <img src="<%= element.path %>" alt="" />
